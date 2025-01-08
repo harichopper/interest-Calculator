@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f7e9;
+            border: 1px solid #d4edda;
+            color: #155724;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interest Calculator</h1>
+        <form id="interestForm">
+            <label for="principal">Principal Amount (₹):</label>
+            <input type="number" id="principal" placeholder="Enter principal amount" required>
+
+            <label for="rate">Rate of Interest (%):</label>
+            <input type="number" id="rate" placeholder="Enter rate of interest" step="0.01" required>
+
+            <label for="time">Time (Years):</label>
+            <input type="number" id="time" placeholder="Enter time in years" required>
+
+            <label for="interestType">Interest Type:</label>
+            <select id="interestType">
+                <option value="simple">Simple Interest</option>
+                <option value="compound">Compound Interest</option>
+            </select>
+
+            <button type="button" id="calculateButton">Calculate</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Result</h3>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script>
+        // Function to calculate interest
+        function calculateInterest() {
+            // Get input values
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const time = parseFloat(document.getElementById('time').value);
+            const interestType = document.getElementById('interestType').value;
+
+            // Validate inputs
+            if (isNaN(principal) || isNaN(rate) || isNaN(time) || principal <= 0 || rate <= 0 || time <= 0) {
+                alert("Please enter valid positive values for all fields.");
+                return;
+            }
+
+            // Calculate interest
+            let interest = 0;
+            if (interestType === 'simple') {
+                interest = (principal * rate * time) / 100;
+            } else if (interestType === 'compound') {
+                interest = principal * Math.pow((1 + rate / 100), time) - principal;
+            }
+
+            // Display result
+            document.getElementById('resultText').textContent = 
+                `The ${interestType} interest is ₹${interest.toFixed(2)}.`;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Attach event listener to button
+        document.getElementById('calculateButton').addEventListener('click', calculateInterest);
+    </script>
+</body>
+</html>
